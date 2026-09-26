@@ -9,6 +9,7 @@ OWNER_IDS = {
     987654321098765432,
 }
 
+
 class Announce(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -30,7 +31,7 @@ class Announce(commands.Cog):
         embed = discord.Embed(
             title="Annonce envoyée",
             description=f"Message envoyé dans {channel.mention}.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -52,11 +53,12 @@ class Announce(commands.Cog):
         embed = discord.Embed(
             title="Message privé envoyé",
             description=f"MP envoyé à {user.mention}.",
-            color=discord.Color.blue()
+            color=discord.Color.blue(),
         )
         await interaction.response.send_message(embed=embed)
 
         log_event(interaction.guild, "PM", f"{interaction.user.mention} a envoyé un MP à {user.mention}.")
+
 
 async def setup(bot):
     await bot.add_cog(Announce(bot))

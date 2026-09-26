@@ -7,6 +7,7 @@ OWNER_IDS = {
     987654321098765432,
 }
 
+
 class Core(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -16,7 +17,7 @@ class Core(commands.Cog):
         embed = discord.Embed(
             title="Aide du bot",
             description="Voici les commandes principales.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
 
         embed.add_field(
@@ -25,7 +26,7 @@ class Core(commands.Cog):
             `/help` ・『 Affiche les commandes 』
             `/list-dev` ・『 Liste des développeurs 』
             """,
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
@@ -35,7 +36,7 @@ class Core(commands.Cog):
             `/unkey` ・『 Retire une permission 』 『 Utilisateur 』
             `/list-perm` ・『 Liste des permissions 』
             """,
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
@@ -52,7 +53,7 @@ class Core(commands.Cog):
             `/list-ban` ・『 Liste des bans 』
             `/list-bl` ・『 Liste blacklist 』
             """,
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
@@ -62,7 +63,7 @@ class Core(commands.Cog):
             `/anty-spam` ・『 Anti-spam 』 『 État 』
             `/logs` ・『 Définit le salon des logs 』 『 Salon 』
             """,
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
@@ -71,7 +72,7 @@ class Core(commands.Cog):
             `/announce` ・『 Envoie une annonce 』 『 Salon 』『 Message 』
             `/pm` ・『 MP à un membre 』 『 Utilisateur 』『 Message 』
             """,
-            inline=False
+            inline=False,
         )
 
         embed.set_footer(text="Bot Discord — base modulaire")
@@ -94,9 +95,10 @@ class Core(commands.Cog):
         embed = discord.Embed(
             title="Développeurs",
             description="\n".join(devs) if devs else "Aucun développeur enregistré.",
-            color=discord.Color.orange()
+            color=discord.Color.orange(),
         )
         await interaction.response.send_message(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Core(bot))

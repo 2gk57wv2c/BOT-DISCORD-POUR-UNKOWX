@@ -2,18 +2,13 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from utils.db import (
-    get_all_permissions,
-    set_user_level,
-    remove_user_level,
-    user_has_at_least,
-    log_event,
-)
+from utils.db import get_all_permissions, set_user_level, remove_user_level, user_has_at_least, log_event
 
 OWNER_IDS = {
     123456789012345678,
     987654321098765432,
 }
+
 
 class Permissions(commands.Cog):
     def __init__(self, bot):
@@ -22,12 +17,7 @@ class Permissions(commands.Cog):
     def can_manage(self, interaction: discord.Interaction, required: str = "admin"):
         if interaction.user.id in OWNER_IDS:
             return True
-        return user_has_at_least(
-            interaction.guild.id,
-            interaction.user.id,
-            required,
-            owner_ids=OWNER_IDS
-        )
+        return user_has_at_least(interaction.guild.id, interaction.user.id, required, owner_ids=OWNER_IDS)
 
     @app_commands.command(name="key", description="Donne une permission à un membre")
     @app_commands.describe(user="Utilisateur", level="Niveau de permission", reason="Raison")
@@ -49,7 +39,7 @@ class Permissions(commands.Cog):
         embed = discord.Embed(
             title="Permission attribuée",
             description=f"{user.mention} a reçu le niveau `{level}`.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
         embed.add_field(name="Raison", value=reason, inline=False)
         await interaction.response.send_message(embed=embed)
@@ -68,7 +58,7 @@ class Permissions(commands.Cog):
         embed = discord.Embed(
             title="Permission retirée",
             description=f"{user.mention} n'a plus de permission spéciale.",
-            color=discord.Color.orange()
+            color=discord.Color.orange(),
         )
         embed.add_field(name="Raison", value=reason, inline=False)
         await interaction.response.send_message(embed=embed)
@@ -95,9 +85,10 @@ class Permissions(commands.Cog):
         embed = discord.Embed(
             title="Permissions du serveur",
             description="\n".join(lines),
-            color=discord.Color.blue()
+            color=discord.Color.blue(),
         )
         await interaction.response.send_message(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Permissions(bot))

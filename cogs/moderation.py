@@ -21,6 +21,7 @@ OWNER_IDS = {
     987654321098765432,
 }
 
+
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -43,7 +44,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Avertissement",
             description=f"{user.mention} a reçu un avertissement.",
-            color=discord.Color.yellow()
+            color=discord.Color.yellow(),
         )
         embed.add_field(name="Nombre total", value=str(warn_count), inline=False)
         embed.add_field(name="Raison", value=reason, inline=False)
@@ -63,7 +64,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Warns retirés",
             description=f"Les warns de {user.mention} ont été supprimés.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -88,7 +89,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title=f"Warns de {user.display_name}",
             description="\n".join(lines),
-            color=discord.Color.gold()
+            color=discord.Color.gold(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -110,7 +111,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Kick",
             description=f"{user.mention} a été expulsé.",
-            color=discord.Color.orange()
+            color=discord.Color.orange(),
         )
         embed.add_field(name="Raison", value=reason, inline=False)
         await interaction.response.send_message(embed=embed)
@@ -135,7 +136,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Ban",
             description=f"{user.mention} a été banni.",
-            color=discord.Color.red()
+            color=discord.Color.red(),
         )
         embed.add_field(name="Raison", value=reason, inline=False)
         await interaction.response.send_message(embed=embed)
@@ -164,7 +165,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Unban",
             description=f"L'utilisateur <@{user_id_int}> a été débanni.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -189,7 +190,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Liste des bans",
             description="\n".join(lines),
-            color=discord.Color.red()
+            color=discord.Color.red(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -205,7 +206,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Blacklist",
             description=f"{user.mention} a été ajouté à la blacklist.",
-            color=discord.Color.dark_red()
+            color=discord.Color.dark_red(),
         )
         embed.add_field(name="Raison", value=reason, inline=False)
         await interaction.response.send_message(embed=embed)
@@ -224,7 +225,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Blacklist retirée",
             description=f"{user.mention} a été retiré de la blacklist.",
-            color=discord.Color.green()
+            color=discord.Color.green(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -249,9 +250,10 @@ class Moderation(commands.Cog):
         embed = discord.Embed(
             title="Blacklist",
             description="\n".join(lines),
-            color=discord.Color.dark_red()
+            color=discord.Color.dark_red(),
         )
         await interaction.response.send_message(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Moderation(bot))

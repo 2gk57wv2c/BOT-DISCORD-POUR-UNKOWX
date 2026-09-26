@@ -2,16 +2,13 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from utils.db import (
-    update_guild_config,
-    user_has_at_least,
-    log_event,
-)
+from utils.db import update_guild_config, user_has_at_least, log_event
 
 OWNER_IDS = {
     123456789012345678,
     987654321098765432,
 }
+
 
 class Security(commands.Cog):
     def __init__(self, bot):
@@ -39,7 +36,7 @@ class Security(commands.Cog):
         embed = discord.Embed(
             title="Mode raid",
             description=f"Le mode raid a été mis à **{etat.lower()}**.",
-            color=discord.Color.orange()
+            color=discord.Color.orange(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -62,7 +59,7 @@ class Security(commands.Cog):
         embed = discord.Embed(
             title="Anti-spam",
             description=f"L'anti-spam a été mis à **{etat.lower()}**.",
-            color=discord.Color.purple()
+            color=discord.Color.purple(),
         )
         await interaction.response.send_message(embed=embed)
 
@@ -80,9 +77,10 @@ class Security(commands.Cog):
         embed = discord.Embed(
             title="Logs configurés",
             description=f"Le salon {channel.mention} est maintenant utilisé pour les logs.",
-            color=discord.Color.blurple()
+            color=discord.Color.blurple(),
         )
         await interaction.response.send_message(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(Security(bot))
