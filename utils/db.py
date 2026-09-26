@@ -2,6 +2,15 @@ import sqlite3
 
 DB_PATH = "bot.db"
 
+LEVEL_ORDER = {
+    "founder": 5,
+    "cofounder": 4,
+    "admin": 3,
+    "moderator": 2,
+    "member": 1,
+    "none": 0,
+}
+
 
 def connect_db():
     conn = sqlite3.connect(DB_PATH)
@@ -20,7 +29,9 @@ def init_db():
             anti_spam INTEGER DEFAULT 0,
             logs_channel_id INTEGER DEFAULT NULL,
             verification_role_id INTEGER DEFAULT NULL,
-            non_verified_role_id INTEGER DEFAULT NULL
+            non_verified_role_id INTEGER DEFAULT NULL,
+            welcome_message TEXT DEFAULT NULL,
+            bot_prefix TEXT DEFAULT '!'
         )
         """
     )
@@ -112,6 +123,8 @@ def get_guild_config(guild_id: int):
             "logs_channel_id": None,
             "verification_role_id": None,
             "non_verified_role_id": None,
+            "welcome_message": None,
+            "bot_prefix": "!",
         }
     return dict(row)
 
@@ -271,8 +284,36 @@ def ensure_owner(user_id: int, owner_ids):
     return user_id in owner_ids
 
 
-def user_has_at_least(guild_id: int, user_id: int, required_level: str, level_order):
+def user_has_at_least(guild_id: int, user_id: int, required_level: str, owner_ids=None, level_order=None):
+    if owner_ids is not None and user_id in owner_ids:
+        return True
+    if level_order is None:
+        level_order = LEVEL_ORDER
     current = get_level_for_user(guild_id, user_id)
     current_rank = level_order.get(current, 0)
     required_rank = level_order.get(required_level, 0)
     return current_rank >= required_rank
+
+
+def log_event(guild, title: str, message: str):
+    import asyncio
+    import discord
+
+    cfg = get_guild_config(guild.id)
+    channel_id = cfg.get("logs_channel_id")
+    if not channel_id:
+        return
+    channel = guild.get_channel(channel_id)
+    if channel is None:
+        return
+
+    embed = discord.Embed(
+        title=title,
+        description=message,
+        color=discord.Color.blurple(),
+        timestamp=discord.utils.utcnow(),
+    )
+    try:
+        asyncio.create_task(channel.send(embed=embed))
+    except Exception:
+        pass
